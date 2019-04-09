@@ -5,9 +5,6 @@ function plugin({ beginMarker, endMarker, onlyRunWithMarker = false } = {}) {
   beginMarker = beginMarker || '[['
   endMarker = endMarker || ']]'
 
-  // eslint-disable-next-line no-console
-  console.log(beginMarker, endMarker)
-
   function tokenizeVideo(eat, value, silent) {
     const offset = beginMarker.length
     const openIndex = value.indexOf(beginMarker)
@@ -46,11 +43,10 @@ function plugin({ beginMarker, endMarker, onlyRunWithMarker = false } = {}) {
   methods.splice(methods.indexOf('text'), 0, 'patty')
 
   const Compiler = this.Compiler
-  if (Compiler) {
-    const visitors = Compiler.prototype.visitors
-    if (!visitors) return
-    visitors.patty = () => ''
-  }
+  const { visitors } = Compiler.prototype
+  if (!visitors) return
+  visitors.patty = () => null
+  
 }
 
 module.exports = plugin

@@ -49,3 +49,22 @@ test('it won\'t work with square bracket', () => {
   })
   expect(result).toBe('hello [world]\n')
 })
+
+function pattyStringify() {
+  const Compiler = this.Compiler
+  const { visitors } = Compiler.prototype
+  visitors.patty = (node) => {
+    // eslint-disable-next-line no-console
+    console.log(node)
+    return `\`${node.data.content}\``
+  }
+}
+
+test('it works with custom stringify', () => {
+  const result = remark()
+  .use(plugin)
+  .use(pattyStringify)
+  .processSync('hello [[world]]')
+  .toString()
+  expect(result).toBe('hello `world`\n')
+})
