@@ -1,13 +1,14 @@
 {
   "name": "remark-burger",
   "version": "1.0.0",
-  "description": "",
+  "description": "extracts text sandwiched between markers ",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Derek Nguyen <derek@penandpillow.com>",
+  "repository": "https://github.com/d4rekanguok/remark-burger",
+  "keywords": ["remark", "markdown", "text"],
   "license": "ISC",
   "devDependencies": {
     "eslint": "^5.16.0",

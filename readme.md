@@ -2,6 +2,11 @@
 
 A remark plugin that extracts text sandwiched between 2 customizable markers & turns it into a node. A transformer or stringify function can then do whatever with the new node type.
 
+```bash
+yarn add remark-burger
+npm install remark-burger
+```
+
 ---
 ```js
 const burger = require('remark-burger')
@@ -23,7 +28,7 @@ remark()
 
 ## Options
 
-```
+```ts
 interface RemarkBurgerOptions {
   beginMarker?: string;
   endMarker?: string;
@@ -57,7 +62,7 @@ remark()
   .parse('hello `world`')
 ```
 
-It is because by default, `remark-burger`'s tokenizer priority is very low so it won't be conflicted with markdown syntax. This can be configured with `insertBefore` options.
+It is because by default, `remark-burger`'s tokenizer priority is very low so it won't be conflicted with markdown syntax. This can be configured with [`insertBefore`](#insertBefore) options.
 
 #### pattyName
 
