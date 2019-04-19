@@ -1,11 +1,16 @@
-function plugin({ beginMarker, endMarker, onlyRunWithMarker = false } = {}) {
+function plugin({ 
+  beginMarker,
+  endMarker,
+  pattyName = 'patty',
+  onlyRunWithMarker = false, 
+  insertBefore = 'text' } = {}) {
 
   if (onlyRunWithMarker && !(beginMarker || endMarker)) return
 
   beginMarker = beginMarker || '[['
   endMarker = endMarker || ']]'
 
-  function tokenizeVideo(eat, value, silent) {
+  function tokenizePatty(eat, value, silent) {
     const offset = beginMarker.length
     const openIndex = value.indexOf(beginMarker)
     if (openIndex !== 0) return
@@ -18,7 +23,7 @@ function plugin({ beginMarker, endMarker, onlyRunWithMarker = false } = {}) {
 
     const content = remaining.substring(0, closeIndex)
     return eat(`${beginMarker}${content}${endMarker}`)({
-      type: 'patty',
+      type: pattyName,
       value: '',
       data: { content }
     })
@@ -28,10 +33,10 @@ function plugin({ beginMarker, endMarker, onlyRunWithMarker = false } = {}) {
     return value.indexOf(beginMarker, fromIndex)
   }
 
-  tokenizeVideo.locator = locator
-  tokenizeVideo.notInBlock = true
-  tokenizeVideo.notInList = true
-  tokenizeVideo.notInLink = true
+  tokenizePatty.locator = locator
+  tokenizePatty.notInBlock = true
+  tokenizePatty.notInList = true
+  tokenizePatty.notInLink = true
 
   const Parser = this.Parser
   const {
@@ -39,13 +44,13 @@ function plugin({ beginMarker, endMarker, onlyRunWithMarker = false } = {}) {
     inlineMethods: methods
   } = Parser.prototype
 
-  tokenizers.patty = tokenizeVideo
-  methods.splice(methods.indexOf('text'), 0, 'patty')
+  tokenizers[pattyName] = tokenizePatty
+  methods.splice(methods.indexOf(insertBefore), 0, pattyName)
 
   const Compiler = this.Compiler
   const { visitors } = Compiler.prototype
   if (!visitors) return
-  visitors.patty = () => null
+  visitors.patty = (node) => beginMarker + node.data.content + endMarker
   
 }
 
