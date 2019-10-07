@@ -47,10 +47,14 @@ function plugin({
   tokenizers[pattyName] = tokenizePatty
   methods.splice(methods.indexOf(insertBefore), 0, pattyName)
 
-  const Compiler = this.Compiler
-  const { visitors } = Compiler.prototype
-  if (!visitors) return
-  visitors.patty = (node) => beginMarker + node.data.content + endMarker
+  try {
+    const Compiler = this.Compiler
+    const { visitors } = Compiler.prototype
+    if (!visitors) return
+    visitors.patty = (node) => beginMarker + node.data.content + endMarker
+  } catch(e) {
+    // do nothign
+  }
   
 }
 
